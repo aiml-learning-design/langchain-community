@@ -21,7 +21,7 @@ LOADER_CLASS_MODULE = "libs.community.langchain_community.universal_document_loa
         ("sample_documents/sample.pptx", "UnstructuredPowerPointLoader"),
         ("sample_documents/sample.txt", "TextLoader"),
         ("sample_documents/sample.csv", "CSVLoader"),
-        ("sample_documents/sample.unknown", "UnstructuredFileLoader"),
+        ("sample_documents/sample.unknown", "UnstructuredLoader"),
     ]
 )
 @patch("os.path.isfile", return_value=True)

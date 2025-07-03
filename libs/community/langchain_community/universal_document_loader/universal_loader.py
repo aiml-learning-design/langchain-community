@@ -28,9 +28,11 @@ from langchain_community.document_loaders import (
     UnstructuredMarkdownLoader,
     UnstructuredPowerPointLoader,
     TextLoader,
-    CSVLoader,
-    UnstructuredFileLoader,
+    CSVLoader
 )
+
+from langchain_unstructured import UnstructuredLoader
+
 
 
 class LoaderStrategy(ABC):
@@ -211,7 +213,7 @@ class FallbackLoaderStrategy(LoaderStrategy):
         Returns:
             List of Document objects extracted from the file.
         """
-        return UnstructuredFileLoader(file_path).load()
+        return UnstructuredLoader(file_path).load()
 
 
 class UniversalDocumentLoader:
