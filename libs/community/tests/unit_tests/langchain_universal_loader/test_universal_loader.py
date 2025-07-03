@@ -1,10 +1,12 @@
 import pytest
 from unittest.mock import patch, MagicMock
 from langchain_core.documents import Document
-from libs.community.langchain_community.langchain_universal_loader.universal_loader import UniversalDocumentLoader
+
+from libs.community.langchain_community.universal_document_loader.universal_loader import UniversalDocumentLoader
 
 # Mapping to patch correct internal loader import location
-LOADER_CLASS_MODULE = "libs.community.langchain_community.langchain_universal_loader.universal_loader"
+LOADER_CLASS_MODULE = "libs.community.langchain_community.universal_document_loader.universal_loader"
+
 
 @pytest.mark.parametrize(
     "file_path,expected_loader_class",
