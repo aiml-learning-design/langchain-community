@@ -1,3 +1,34 @@
+"""
+Unit test for UniversalDocumentLoader to validate MIME-type-based parsing strategy.
+
+This test ensures that:
+- Files are correctly identified using their MIME type (mocked via `mimetypes.guess_type`).
+- The appropriate parser is selected and invoked based on the MIME type.
+- If the MIME type is unknown, the fallback `TextParser` is used.
+- The document is loaded via the correct parser, and the parsed result is a non-empty list of `Document` instances.
+
+Supported MIME types tested:
+- text/plain (.txt)
+- text/csv (.csv)
+- application/rtf (.rtf)
+- text/markdown (.md)
+- application/vnd.ms-outlook (.msg)
+- message/rfc822 (.eml)
+- text/html (.html)
+- application/vnd.openxmlformats-officedocument.wordprocessingml.document (.docx)
+- application/vnd.openxmlformats-officedocument.presentationml.presentation (.pptx)
+- application/pdf (.pdf)
+- None (unknown extension fallback)
+
+Mocks used:
+- `os.path.isfile`: Always returns True
+- `mimetypes.guess_type`: Returns a MIME type based on file extension
+- All parser classes (e.g., `TextParser`, `CSVParser`) and their `lazy_parse` methods
+- `FileSystemBlobLoader`: Returns a mock blob with the given file path
+
+This helps ensure extensibility and correctness of MIME-based strategy selection within the `UniversalDocumentLoader`.
+"""
+
 import pytest
 from unittest.mock import MagicMock, patch
 from langchain_core.documents import Document
