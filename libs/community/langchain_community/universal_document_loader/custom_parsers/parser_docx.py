@@ -13,7 +13,7 @@ class DocxParser(BaseBlobParser):
 
 
     Args:
-        blob: Blob object containing the CSV file path
+        blob: Blob object containing the DOCX file path
 
     Returns:
         List[Document]: A list containing a single Document with the DOCX content
