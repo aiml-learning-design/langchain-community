@@ -2,18 +2,18 @@ from typing import Iterator, List, Optional
 from uuid import uuid4
 
 import pytest
-from langchain.chains.llm import LLMChain
-from langchain.evaluation import EvaluatorType
-from langchain.smith import RunEvalConfig, run_on_dataset
-from langchain.smith.evaluation import InputFormatError
-from langchain.smith.evaluation.runner_utils import arun_on_dataset
+from langchain_classic.chains.llm import LLMChain
+from langchain_classic.evaluation import EvaluatorType
+from langchain_classic.smith import RunEvalConfig, run_on_dataset
+from langchain_classic.smith.evaluation import InputFormatError
+from langchain_classic.smith.evaluation.runner_utils import arun_on_dataset
 from langchain_core.messages import BaseMessage, HumanMessage
 from langchain_core.prompts.chat import ChatPromptTemplate
 from langsmith import Client as Client
 from langsmith.evaluation import run_evaluator
 from langsmith.schemas import DataType, Example, Run
 
-from langchain_community.chat_models import ChatOpenAI
+from langchain_community.chat_models.openai import ChatOpenAI
 from langchain_community.llms.openai import OpenAI
 
 

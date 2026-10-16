@@ -27,8 +27,8 @@ class DallEAPIWrapper(BaseModel):
     2. save your OPENAI_API_KEY in an environment variable
     """
 
-    client: Any = None  #: :meta private:
-    async_client: Any = Field(default=None, exclude=True)  #: :meta private:
+    client: Any = None
+    async_client: Any = Field(default=None, exclude=True)
     model_name: str = Field(default="dall-e-2", alias="model")
     model_kwargs: Dict[str, Any] = Field(default_factory=dict)
     openai_api_key: Optional[SecretStr] = Field(
@@ -42,7 +42,7 @@ class DallEAPIWrapper(BaseModel):
     openai_api_base: Optional[str] = Field(
         alias="base_url", default_factory=from_env("OPENAI_API_BASE", default=None)
     )
-    """Base URL path for API requests, leave blank if not using a proxy or service 
+    """Base URL path for API requests, leave blank if not using a proxy or service
         emulator."""
     openai_organization: Optional[str] = Field(
         alias="organization",
@@ -62,7 +62,7 @@ class DallEAPIWrapper(BaseModel):
     """Size of image to generate"""
     separator: str = "\n"
     """Separator to use when multiple URLs are returned."""
-    quality: Optional[str] = "standard"
+    quality: Optional[str] = None
     """Quality of the image that will be generated"""
     max_retries: int = 2
     """Maximum number of retries to make when generating."""
@@ -140,15 +140,16 @@ class DallEAPIWrapper(BaseModel):
 
     def run(self, query: str) -> str:
         """Run query through OpenAI and parse result."""
-
         if is_openai_v1():
-            response = self.client.generate(
-                prompt=query,
-                n=self.n,
-                size=self.size,
-                model=self.model_name,
-                quality=self.quality,
-            )
+            kwargs = {
+                "prompt": query,
+                "n": self.n,
+                "size": self.size,
+                "model": self.model_name,
+            }
+            if self.quality is not None:
+                kwargs["quality"] = self.quality
+            response = self.client.generate(**kwargs)
             image_urls = self.separator.join([item.url for item in response.data])
         else:
             response = self.client.create(

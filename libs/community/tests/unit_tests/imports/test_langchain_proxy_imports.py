@@ -3,16 +3,20 @@
 
 def test_all_proxy_llms_are_llm_subclasses() -> None:
     """Simple test to make sure all things are subclasses of BaseLLM."""
-    from langchain import llms
+    from langchain_classic import llms
     from langchain_core.language_models import BaseLLM
 
     for cls in llms.__all__:
+        if cls in [
+            "Baseten",  # Removed from community
+        ]:
+            continue
         assert issubclass(getattr(llms, cls), BaseLLM)
 
 
 def test_vectorstores() -> None:
     """Simple test to make sure all things can be imported."""
-    from langchain import vectorstores
+    from langchain_classic import vectorstores
     from langchain_core.vectorstores import VectorStore
 
     for cls in vectorstores.__all__:
@@ -21,5 +25,15 @@ def test_vectorstores() -> None:
             "ClickhouseSettings",
             "MyScaleSettings",
             "AzureCosmosDBVectorSearch",
+            "Tigris",  # Was removed upstream but haven't released yet
+            "Weaviate",  # Removed from vectorstores module
+            "Qdrant",  # Removed from vectorstores module
+            "Pinecone",  # Removed from vectorstores module
+            "Neo4jVector",  # Removed from vectorstores module
+            "MongoDBAtlasVectorSearch",  # Removed from vectorstores module
+            "Milvus",  # Removed from vectorstores module
+            "MatchingEngine",  # Removed from vectorstores module
+            "DeepLake",  # Removed from vectorstores module
+            "DatabricksVectorSearch",  # Removed from vectorstores module
         ]:
             assert issubclass(getattr(vectorstores, cls), VectorStore)

@@ -35,10 +35,6 @@ from langchain_community.tools.google_finance.tool import GoogleFinanceQueryRun
 from langchain_community.tools.google_jobs.tool import GoogleJobsQueryRun
 from langchain_community.tools.google_lens.tool import GoogleLensQueryRun
 from langchain_community.tools.google_scholar.tool import GoogleScholarQueryRun
-from langchain_community.tools.google_search.tool import (
-    GoogleSearchResults,
-    GoogleSearchRun,
-)
 from langchain_community.tools.google_serper.tool import (
     GoogleSerperResults,
     GoogleSerperRun,
@@ -82,7 +78,6 @@ from langchain_community.utilities.google_finance import GoogleFinanceAPIWrapper
 from langchain_community.utilities.google_jobs import GoogleJobsAPIWrapper
 from langchain_community.utilities.google_lens import GoogleLensAPIWrapper
 from langchain_community.utilities.google_scholar import GoogleScholarAPIWrapper
-from langchain_community.utilities.google_search import GoogleSearchAPIWrapper
 from langchain_community.utilities.google_serper import GoogleSerperAPIWrapper
 from langchain_community.utilities.google_trends import GoogleTrendsAPIWrapper
 from langchain_community.utilities.graphql import GraphQLAPIWrapper
@@ -180,7 +175,7 @@ DANGEROUS_TOOLS = {
 
 def _get_llm_math(llm: BaseLanguageModel) -> BaseTool:
     try:
-        from langchain.chains.llm_math.base import LLMMathChain
+        from langchain_classic.chains.llm_math.base import LLMMathChain
     except ImportError:
         raise ImportError(
             "LLM Math tools require the library `langchain` to be installed."
@@ -196,8 +191,8 @@ def _get_llm_math(llm: BaseLanguageModel) -> BaseTool:
 
 def _get_open_meteo_api(llm: BaseLanguageModel) -> BaseTool:
     try:
-        from langchain.chains.api.base import APIChain
-        from langchain.chains.api import (
+        from langchain_classic.chains.api.base import APIChain
+        from langchain_classic.chains.api import (
             open_meteo_docs,
         )
     except ImportError:
@@ -226,8 +221,8 @@ _LLM_TOOLS: Dict[str, Callable[[BaseLanguageModel], BaseTool]] = {
 def _get_news_api(llm: BaseLanguageModel, **kwargs: Any) -> BaseTool:
     news_api_key = kwargs["news_api_key"]
     try:
-        from langchain.chains.api.base import APIChain
-        from langchain.chains.api import (
+        from langchain_classic.chains.api.base import APIChain
+        from langchain_classic.chains.api import (
             news_docs,
         )
     except ImportError:
@@ -251,8 +246,8 @@ def _get_news_api(llm: BaseLanguageModel, **kwargs: Any) -> BaseTool:
 def _get_tmdb_api(llm: BaseLanguageModel, **kwargs: Any) -> BaseTool:
     tmdb_bearer_token = kwargs["tmdb_bearer_token"]
     try:
-        from langchain.chains.api.base import APIChain
-        from langchain.chains.api import (
+        from langchain_classic.chains.api.base import APIChain
+        from langchain_classic.chains.api import (
             tmdb_docs,
         )
     except ImportError:
@@ -276,8 +271,8 @@ def _get_tmdb_api(llm: BaseLanguageModel, **kwargs: Any) -> BaseTool:
 def _get_podcast_api(llm: BaseLanguageModel, **kwargs: Any) -> BaseTool:
     listen_api_key = kwargs["listen_api_key"]
     try:
-        from langchain.chains.api.base import APIChain
-        from langchain.chains.api import (
+        from langchain_classic.chains.api.base import APIChain
+        from langchain_classic.chains.api import (
             podcast_docs,
         )
     except ImportError:
@@ -308,10 +303,6 @@ def _get_lambda_api(**kwargs: Any) -> BaseTool:
 
 def _get_wolfram_alpha(**kwargs: Any) -> BaseTool:
     return WolframAlphaQueryRun(api_wrapper=WolframAlphaAPIWrapper(**kwargs))
-
-
-def _get_google_search(**kwargs: Any) -> BaseTool:
-    return GoogleSearchRun(api_wrapper=GoogleSearchAPIWrapper(**kwargs))
 
 
 def _get_merriam_webster(**kwargs: Any) -> BaseTool:
@@ -366,10 +357,6 @@ def _get_google_trends(**kwargs: Any) -> BaseTool:
 
 def _get_google_serper_results_json(**kwargs: Any) -> BaseTool:
     return GoogleSerperResults(api_wrapper=GoogleSerperAPIWrapper(**kwargs))
-
-
-def _get_google_search_results_json(**kwargs: Any) -> BaseTool:
-    return GoogleSearchResults(api_wrapper=GoogleSearchAPIWrapper(**kwargs))
 
 
 def _get_searchapi(**kwargs: Any) -> BaseTool:
@@ -485,11 +472,6 @@ _EXTRA_LLM_TOOLS: Dict[
 }
 _EXTRA_OPTIONAL_TOOLS: Dict[str, Tuple[Callable[[KwArg(Any)], BaseTool], List[str]]] = {
     "wolfram-alpha": (_get_wolfram_alpha, ["wolfram_alpha_appid"]),
-    "google-search": (_get_google_search, ["google_api_key", "google_cse_id"]),
-    "google-search-results-json": (
-        _get_google_search_results_json,
-        ["google_api_key", "google_cse_id", "num_results"],
-    ),
     "searx-search-results-json": (
         _get_searx_search_results_json,
         ["searx_host", "engines", "num_results", "aiosession"],
